@@ -7,7 +7,7 @@
 [![bencodes.blog](https://bennowak.github.io/images/favicon.png)](https://bencodes.blog)
 
 [![license](https://img.shields.io/github/license/:bennowak/:multiple-account-git-ssh-setup.svg)](LICENSE)
-[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
+[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=popout?logo=markdown)](https://github.com/RichardLitt/standard-readme)
 
 > If you manage multiple remote repositories across various remote repository hosting services with multiple accounts, this solution should help keep your dev mind a bit more sane!
 
