@@ -1,13 +1,11 @@
-# multiple-accounts-repo-setup
+# multiple-account-git-ssh-setup
 
 -or-
 
 # How to Effectively Manage Remote `git` Repos Across Multiple Accounts and Services
 
-![banner]()
+[![bencodes.blog](https://bennowak.github.io/images/favicon.png)](bencodes.blog)
 
-![badge]()
-![badge]()
 [![license](https://img.shields.io/github/license/:bennowak/:multiple-account-git-ssh-setup.svg)](LICENSE)
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
@@ -224,7 +222,7 @@ I won't waste the time displaying an example for this one, but do this at your o
 
 Admittedly the last two options are a bit contrived, but they serve to demonstrate how scaling issues will creep in and make management less efficient. Do whatever works for you using this guide as, ... well ..., a guide.
 
-## Usage
+### Step 3 - Editing and Creating Configs
 
 The key components and relevant parts to making this whole system work are
 
@@ -237,7 +235,7 @@ The key components and relevant parts to making this whole system work are
 
 Let's get started ...
 
-### 1) Account `.gitconfig` Files
+#### 1) Account `.gitconfig` Files
 
 Create this file at the root of each "account" level sub-directory. For example: if you have multiple accounts on GitHub (possibly `usernameA` and `usernameB`), then to configure `usernameA`, the `.gitconfig` file would be created using the following directory/sub-directory structure.
 
@@ -258,7 +256,7 @@ Do this for each account in each service.
 
 _! **IMPORTANT NOTE:** `<_account_identifier_suffic>` above needs to be replaced with something that uniquely identifies the account. I generally use the account username, but it can be anything that makes sense to you. The url value inside the double quotes will be used in the `ssh` `config` file as `Host` entries._
 
-### 2) System SSH `config` File Customization
+#### 2) System SSH `config` File Customization
 
 In your system's SSH `config` file (mine's located at `~/.ssh/config` no extension on the filename) add `Host` entries for each account using the following as a guide.
 
@@ -284,7 +282,7 @@ Host *
     AddKeysToAgent yes
 ```
 
-### 3) `[includeIf]` Entries in User's `.config` File
+#### 3) `[includeIf]` Entries in User's `.config` File
 
 Finally is the glue that marries the previous two parts together and gives us remote repo management bliss. It's been a long journey, but it will be so worth it!
 
@@ -302,17 +300,24 @@ Use the following template to add entries for each account.
 
 Having completed all those steps, the correct `ssh` credentials (key-pair) will automatically be retrieved and used depending on which directory you are in.
 
+## Usage
+
+Assuming you've accepted my argument for using **Option 1**, all you need to do is clone and/or create your repos into/in the relevant account-level directories. You can create further sub-directories within the account sub-directory if you want to, but I haven't found it necessary. That's it! Enjoy.
+
 ### Explaining the Magic (No Hand Waving Here!)
 
-So here's what's going on. I'll use a typical SSH-style `git clone <url>` command to demonstrate.
+So here's what's going on. I'll use a SSH-style `git clone <url>` command (on this repo) to demonstrate.
 
-1.) `git clone`
+1.  `git@github.com:bennowak/multiple-account-git-ssh-setup.git` is run from the terminal inside the directory `~/src/github.com/bennowak` which contains the account-level `.gitconfig` file.
+2.  `git` checks the `.gitconfig` file in my home directory and parses the various `[includeIf]` directives to see if it should pull in configuration settings from other files depending on which directory the original `git` command was run in (the working directory).
+3.  Because the working directory matches a conditional the `path` argument is used to find the `.gitconfig` and incorporate those settings in the current process
+4.  The "fetched" settings include the `user.name`, `user.email` data which is used for the duration of the process. Additionally the `[url]` directive causes the request's `url`to be transformed from `github.com` into `github.com_bennowak`
+5.  Because I'm using SSH mode (inferred by the `git clone` url argument's structure) the `ssh` agent supplies the `IdentityFile` that is listed under the `Host` entry that matches the request url `github.com_bennowak`
+6.  Viola! The process of authenticating multiple SSH identities based on which directory I happen to be in is effectively automated and everything is right with the world.
 
 ## API
 
-### Any optional sections
-
-## More optional sections
+There's no API per se. However I am toying around with a bash script to scaffold this out. Ping me on github if that interests you.
 
 ## Contributing
 
@@ -322,8 +327,6 @@ PRs accepted.
 
 Small note: If editing the Readme, please conform to the [standard-readme](https://github.com/RichardLitt/standard-readme) specification.
 
-### Any optional sections
-
 ## License
 
-[MIT © Richard McRichface.](../LICENSE)
+[Ben Nowak](../LICENSE)
