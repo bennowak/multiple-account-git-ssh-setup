@@ -4,7 +4,7 @@
 
 # How to Effectively Manage Remote `git` Repos Across Multiple Accounts and Services
 
-[![bencodes.blog](https://bennowak.github.io/images/favicon.png)](bencodes.blog)
+[![bencodes.blog](https://bennowak.github.io/images/favicon.png)](https://bencodes.blog)
 
 [![license](https://img.shields.io/github/license/:bennowak/:multiple-account-git-ssh-setup.svg)](LICENSE)
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
